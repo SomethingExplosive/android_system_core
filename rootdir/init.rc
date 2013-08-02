@@ -1,5 +1,4 @@
 # Copyright (C) 2012 The Android Open Source Project
-# Copyright (C) 2013 The SomethingExplosive Project
 #
 # IMPORTANT: Do not create world writable files or directories.
 # This is a common source of Android security bugs.
@@ -260,24 +259,6 @@ on post-fs-data
     # won't work.
     # Set indication (checked by vold) that we have finished this action
     #setprop vold.post_fs_data_done 1
-
-# su daemon
-service su_daemon /system/xbin/su --daemon
-    class main
-    oneshot
-    disabled
-
-on property:persist.sys.root_access=0
-    stop su_daemon
-
-on property:persist.sys.root_access=2
-    stop su_daemon
-
-on property:persist.sys.root_access=1
-    start su_daemon
-
-on property:persist.sys.root_access=3
-    start su_daemon
 
 on boot
 # basic network init
