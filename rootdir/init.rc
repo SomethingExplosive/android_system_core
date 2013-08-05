@@ -8,9 +8,6 @@ import /init.usb.rc
 import /init.${ro.hardware}.rc
 import /init.trace.rc
 
-# su daemon import
-import /init.superuser.rc
-
 on early-init
     # Set init and its forked children's oom_adj.
     write /proc/1/oom_adj -16
@@ -263,6 +260,9 @@ on post-fs-data
     # Set indication (checked by vold) that we have finished this action
     #setprop vold.post_fs_data_done 1
 
+# su daemon import
+import /init.superuser.rc
+
 on boot
 # basic network init
     ifup lo
@@ -373,6 +373,9 @@ on boot
     setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
     setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
     setprop net.tcp.buffersize.evdo    4094,87380,262144,4096,16384,262144
+
+# Set this property to allow root access to Apps and ADB by default
+    setprop persist.sys.root_access 3
 
 # Set this property so surfaceflinger is not started by system_init
     setprop system_init.startsurfaceflinger 0
